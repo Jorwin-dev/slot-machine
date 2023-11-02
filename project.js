@@ -1,7 +1,3 @@
-// Deposit some money
-
-// Determine the number of lines to bet on
-
 // Collect an amount to bet
 
 // Spin the slots
@@ -15,6 +11,7 @@
 // Import user prompt
 const prompt = require("prompt-sync")();
 
+// Determine the amount of money being deposited
 const deposit = () => {
     while(true) {
         const depositAmount = prompt("Enter a deposit amount: ");
@@ -28,6 +25,19 @@ const deposit = () => {
     }
 };
 
-const depositAmount = deposit();
+// Determine the number of lines to bet on
+const getNumLines = () => {
+    while(true) {
+        const lines = prompt("Enter the # of lines to bet on (1-3): ");
+        const numLines = parseFloat(lines);
 
-console.log(depositAmount);
+        if (isNaN(numLines) || numLines < 1 || numLines > 3) {
+            console.log("Invalid number of lines, try again.");
+        } else {
+        return numLines;
+        }
+    }
+};
+
+const depositAmount = deposit();
+const numLines = getNumLines();
