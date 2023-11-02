@@ -1,5 +1,3 @@
-// Play again?
-
 const prompt = require("prompt-sync")(); // Import user prompt
 
 // Global variables
@@ -143,15 +141,33 @@ const getWinnings = (rows, bet, lines) => {
     return winnings;
 };
 
-// Give the user winnings or keep the bet
+// Allow the game to be played
+const game = () => {
+    // let allows you to change variable value overtime, unlike const which is fixed.
+    let balance = deposit();
 
+    while (true) {
+        console.log("You have a balance of $" + balance);
+        const numLines = getNumLines();
+        const bet = getBet(balance, numLines);
+        balance -= bet * numLines;
+        const reels = spin();
+        const rows = transpose(reels);
+        printSlots(rows);
+        const winnings = getWinnings(rows, bet, numLines);
+        balance += winnings;
+        console.log("You won, $" + winnings);
 
-// let allows you to change variable value overtime, unlike const which is fixed.
-let balance = deposit();
-const numLines = getNumLines();
-const bet = getBet(balance, numLines);
-const reels = spin();
-const rows = transpose(reels);
-printSlots(rows);
-const winnings = getWinnings(rows, bet, numLines);
-console.log("You won, $" + winnings);
+        // Check if user has insufficent funds, and if they want to play again.
+        if (balance <= 0) {
+            console.log("You've gone broke!");
+            break;
+        }
+
+        const playAgain = prompt("Do you want to play again (y/n)? ");
+
+        if (playAgain != "y") break;
+    }
+}
+
+game();
