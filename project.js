@@ -68,6 +68,7 @@ const getBet = (balance, lines) => {
 
 // Spin the slots
 const spin = () => {
+    // Generates an array of all the possible symbols we can pick from
     const symbols = [];
     for (const[symbol, count] of Object.entries(SYMBOLS_COUNT)) {
         for (i = 0; i < count; i++) {
@@ -75,8 +76,12 @@ const spin = () => {
         }
     }
 
-    const reels = [[], [], []];
+    // Has all of the different reels
+    const reels = [];
+
+    // Loop through all of the available reels
     for (i = 0; i < COLS; i++) {
+        reels.push([]);
         const reelSymbols = [...symbols];
         for (j = 0; j < ROWS; j++) {
             const randomIndex = Math.floor(Math.random() * reelSymbols.length);
