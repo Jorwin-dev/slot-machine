@@ -1,7 +1,3 @@
-// Check if the user won or lost
-
-// Give the user winnings or keep the bet
-
 // Play again?
 
 const prompt = require("prompt-sync")(); // Import user prompt
@@ -123,6 +119,33 @@ const printSlots = (rows) => {
     }
 };
 
+// Check if the user won or lost
+const getWinnings = (rows, bet, lines) => {
+    let winnings = 0;
+
+    for (let row = 0; row < lines; row++) {
+        const symbols = rows[row];
+        let allSame = true;
+
+        // Compare the symbols to see if you won (all must be same to win)
+        for (const symbol of symbols) {
+            if (symbol != symbols[0]) {
+                allSame = false;
+                break;
+            }
+        }
+
+        if (allSame) {
+            winnings += bet * SYMBOL_VALUES[symbols[0]];
+        }
+    }
+
+    return winnings;
+};
+
+// Give the user winnings or keep the bet
+
+
 // let allows you to change variable value overtime, unlike const which is fixed.
 let balance = deposit();
 const numLines = getNumLines();
@@ -130,3 +153,5 @@ const bet = getBet(balance, numLines);
 const reels = spin();
 const rows = transpose(reels);
 printSlots(rows);
+const winnings = getWinnings(rows, bet, numLines);
+console.log("You won, $" + winnings);
