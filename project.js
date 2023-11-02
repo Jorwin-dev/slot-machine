@@ -94,9 +94,39 @@ const spin = () => {
     return reels;
 };
 
+// Transpose the reels Matrix
+const transpose = (reels) => {
+    const rows = [];
+
+    for (i = 0; i < ROWS; i++) {
+        rows.push([]);
+        for (j = 0; j < COLS; j++) {
+            rows[i].push(reels[j][i]);
+        }
+    }
+
+    return rows;
+};
+
+// Print to the user what they spun
+const printSlots = (rows) => {
+    for (const row of rows) {
+        let rowString = "";
+        for (const [i, symbol] of row.entries()) {
+            rowString += symbol;
+            if (i != row.length - 1) {
+                rowString += " | ";
+            }
+        }
+
+        console.log(rowString);
+    }
+};
+
 // let allows you to change variable value overtime, unlike const which is fixed.
-const reels = spin();
-console.log(reels);
 let balance = deposit();
 const numLines = getNumLines();
 const bet = getBet(balance, numLines);
+const reels = spin();
+const rows = transpose(reels);
+printSlots(rows);
